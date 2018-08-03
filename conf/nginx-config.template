@@ -159,7 +159,9 @@ http {
         # endpoints of {{$serviceUnitName}} 
           {{- with $serviceUnit := index $.ServiceUnits $serviceUnitName }}
             {{- range $idx, $endpoint := endpointsForAlias $cfg $serviceUnit }}
+              {{- if gt $weight 0 }}
     server {{$endpoint.IP}}:{{$endpoint.Port}} weight={{$weight}};
+              {{ end -}}
             {{ end -}}
           {{ end }}
         {{ end -}}
