@@ -42,6 +42,7 @@ http {
   server_names_hash_bucket_size 256;
 
   proxy_temp_path /var/lib/nginx/cache/proxy_temp;
+  client_max_body_size 50m;
   client_body_temp_path /var/lib/nginx/cache/client_temp;
   fastcgi_temp_path /var/lib/nginx/cache/fastcgi_temp;
   uwsgi_temp_path /var/lib/nginx/cache/uwsgi_temp;
