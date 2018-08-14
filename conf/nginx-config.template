@@ -267,6 +267,12 @@ http {
       proxy_set_header X-Forwarded-Host $host;
       proxy_set_header X-Forwarded-Proto $scheme;
 
+      {{ with $proxy_next_upstream := (index $cfg.Annotations "nginx.router.openshift.io/proxy_next_upstream") }}
+        {{ if matchPattern "((error|timeout|invalid_header|http_500|http_502|http_503|http_504|http_403|http_404|http_429|non_idempotent|off)( |$))+" $proxy_next_upstream }}
+      proxy_next_upstream {{ $proxy_next_upstream }};
+        {{ end }}
+      {{ end }}
+
         {{ if eq $cfg.TLSTermination "reencrypt" }}
       proxy_ssl_name {{ $cfg.Host }};
           {{- if gt (len (index $cfg.Certificates (printf "%s_pod" $cfg.Host)).Contents) 0 }}
