@@ -163,7 +163,7 @@ http {
           {{- with $serviceUnit := index $.ServiceUnits $serviceUnitName }}
             {{- range $idx, $endpoint := endpointsForAlias $cfg $serviceUnit }}
               {{- if gt $weight 0 }}
-    server {{$endpoint.IP}}:{{$endpoint.Port}} weight={{$weight}};
+    server {{$endpoint.IP}}:{{$endpoint.Port}} weight={{$weight}}{{ if isTrue (index $cfg.Annotations "nginx.router.openshift.io/websocket") }} max_fails=0{{ end }};
               {{ end -}}
             {{ end -}}
           {{ end }}
